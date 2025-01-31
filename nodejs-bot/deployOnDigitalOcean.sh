@@ -14,13 +14,15 @@ nvm use --lts
 npm install -g pm2
 
 # git clone source code for node js bot
-### NOT DONE BELOW!
-git clone your_repository_url /var/www/your_app_name
+https://github.com/asclark109/whatsapp-bot.git
+
 # navigate to application dir
-cd nodejs-bot
+cd whatsapp-bot/nodejs-bot
 
 # install dependencies
 npm install
+
+sudo apt install -y libatk1.0-0 libatk-bridge2.0-0 libcups2 libx11-xcb1 libxcomposite1 libxrandr2 libgbm1 libpango-1.0-0 libxss1 libnss3 libasound2 libxtst6
 
 # Start the application with PM2.
 pm2 start your_app.js --name "your_app_name"

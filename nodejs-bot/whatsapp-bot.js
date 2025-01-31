@@ -1,14 +1,14 @@
 import pkg from 'whatsapp-web.js';
 const { Client, LocalAuth } = pkg;
 import qrcode from 'qrcode-terminal';
-import fs from 'fs';
 
 const client = new Client({
     authStrategy: new LocalAuth(),
-    puppeteer: { headless: true }
+    puppeteer: { 
+        headless: true ,
+        args: ['--no-sandbox', '--disable-setuid-sandbox'] // Add flags to avoid sandbox issues on VPS
+    }
 });
-
-let isClientReady = false;  // Global variable to track readiness
 
 // Track when the client is ready
 const clientReadyPromise = new Promise((resolve, reject) => {
