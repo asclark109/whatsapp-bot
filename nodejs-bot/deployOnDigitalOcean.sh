@@ -22,10 +22,15 @@ cd whatsapp-bot/nodejs-bot
 # install dependencies
 npm install
 
-sudo apt install -y libatk1.0-0 libatk-bridge2.0-0 libcups2 libx11-xcb1 libxcomposite1 libxrandr2 libgbm1 libpango-1.0-0 libxss1 libnss3 libasound2 libxtst6
+sudo apt install -y libatk1.0-0t64 libatk-bridge2.0-0t64 libcups2t64 libx11-xcb1 libxcomposite1 libxrandr2 libgbm1 libpango-1.0-0 libxss1 libnss3 libasound2t64 libxtst6
+sudo apt install -y libxdamage1
+sudo apt install -y libxfixes3
+sudo apt install -y libcairo2
+sudo apt install -y libnss3 libatk-bridge2.0-0 libxss1 libgdk-pixbuf2.0-0 libpango1.0-0 libcups2 libxcomposite1
+sudo apt install -y libx11-xcb1 libxtst6 libatk1.0-0 libxrandr2 libgbm1 libxfixes3 libnss3 libcups2 libnss3 libasound2
 
 # Start the application with PM2.
-pm2 start your_app.js --name "your_app_name"
+pm2 start whatsapp-bot.js --name "whatsapp-bridge"
 
 # Set up PM2 to start on boot:
 pm2 startup systemd
