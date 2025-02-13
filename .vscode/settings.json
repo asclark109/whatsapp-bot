@@ -1,0 +1,13 @@
+{
+    "python.testing.pytestArgs": [
+        "pythonserver"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "python.analysis.extraPaths": [
+        "./pythonserver/src",
+        "./pythonserver/src",
+        "./pythonserver/src",
+        "./pythonserver/src"
+    ]
+}

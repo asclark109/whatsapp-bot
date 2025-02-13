@@ -11,6 +11,7 @@ const client = new Client({
             '--disable-setuid-sandbox',
             '--disable-gpu',
             '--disable-dev-shm-usage'
+            
         ]
     }
 });
@@ -19,7 +20,6 @@ const client = new Client({
 const clientReadyPromise = new Promise((resolve, reject) => {
     client.on('ready', () => {
         console.log('WhatsApp bot is ready!');
-        isClientReady = true;  // Update the readiness state
         resolve();  // Resolve the promise when the client is ready
     });
 
@@ -36,6 +36,10 @@ const clientReadyPromise = new Promise((resolve, reject) => {
         qrcode.generate(qr, { small: true });
         console.log('Please scan the QR code to authenticate.');
     });
+});
+
+clientReadyPromise.catch((error) => {
+    console.error("Error in client ready promise:", error);
 });
 
 client.initialize()
@@ -85,10 +89,15 @@ const sendMessage = async (chatIDorPhoneID, message) => {
 // Function to get chat history, but only if the client is ready
 const getChatHistory = async (chatIDorPhoneID, limit = 50) => {
     try {
+        console.info("Waiting for client to be ready...");
         await clientReadyPromise;  // Wait for the client to be ready
+        console.info("Client is ready.");
         const chat = await client.getChatById(chatIDorPhoneID);
+        console.info("found chat for id="+chatIDorPhoneID)
         if (chat) {
-            return chat.fetchMessages({ limit });
+            const messages = chat.fetchMessages({ limit });
+            console.info("Fetched messages:", messages.length);
+            return messages;
         } else {
             throw new Error('No chat found with this number');
         }
@@ -121,13 +130,30 @@ const getChatID = async (chatName) => {
 };
 
 
+const getContactsByIds = async (ids) => {
+    try {
+        await clientReadyPromise;  // Wait for the client to be ready
+        const contacts = [];
 
-// client.on('ready', () => {
-//     console.log('Client is ready!');
-// });
+        // Loop through each ID in the provided array
+        for (let id of ids) {
+            console.log("requesting information on "+id)
+            const contact = await client.getContactById(id);
+            if (contact) {
+                contacts.push(contact);
+                console.log(`Found contact for ID "${id}": ${contact.name}`);
+            } else {
+                console.log(`No contact found for ID "${id}"`);
+            }
+        }
 
-// client.on('authenticated', () => {
-//     console.log('Authenticated');
-// });
+        // Return the list of contact objects
+        return contacts;
+    } catch (error) {
+        console.error('Error fetching contacts:', error.message);
+        return [];
+    }
+};
 
-export { sendMessage, getChatHistory, getChatID, clientReadyPromise };
+
+export { sendMessage, getChatHistory, getChatID, getContactsByIds, clientReadyPromise };
